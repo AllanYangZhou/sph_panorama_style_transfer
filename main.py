@@ -14,7 +14,7 @@ from image_utils import *
 
 
 def style_transfer(cnn, content_image, style_image, image_size, style_size, content_layer,
-                   content_weight, style_layers, style_weights, tv_weight, init_random=False):
+                   content_weight, style_layers, style_weights, tv_weight, init_random=False, num_iters=300):
     """
     Run style transfer!
     
@@ -80,7 +80,7 @@ def style_transfer(cnn, content_image, style_image, image_size, style_size, cont
     #thetas = [np.random.uniform(0, 2 * np.pi) for i in range(num_proj)]
     #phis = [np.random.uniform(0, 2* np.pi) for i in range(num_proj)]
     
-    num_iters = 300
+    #num_iters = 400
     for t in range(num_iters):
         if t < (num_iters - 10):
             img.clamp_(-1.5, 1.5)
@@ -91,7 +91,8 @@ def style_transfer(cnn, content_image, style_image, image_size, style_size, cont
         for i in range(num_proj):
             #theta, phi = thetas[i], phis[i]
             theta, phi = np.random.uniform(0, 2 * np.pi), np.random.uniform(0, 2 * np.pi)
-            coords = make_grid_np(theta, phi, 200, (512, 256, 3))
+            grid_size = (image_size[0], image_size[1], 3)
+            coords = make_grid_np(theta, phi, 500, grid_size )
             coords_var = Variable(torch.from_numpy(coords.astype(np.float32))[None].type(dtype), requires_grad=False)
 
             proj_content_img_var = F.grid_sample(content_img_var, coords_var)
