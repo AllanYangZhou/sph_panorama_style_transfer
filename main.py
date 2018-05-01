@@ -75,12 +75,6 @@ def style_transfer(cnn, content_image, style_image, image_size, style_size, cont
     plt.figure()
     
     num_proj = 20
-    #thetas = [0, np.pi, 3*np.pi/2, np.pi/2, 0, 0]
-    #phis = [0, 0, 0, 0, np.pi/2, 3*np.pi/2]
-    #thetas = [np.random.uniform(0, 2 * np.pi) for i in range(num_proj)]
-    #phis = [np.random.uniform(0, 2* np.pi) for i in range(num_proj)]
-    
-    #num_iters = 400
     for t in range(num_iters):
         if t < (num_iters - 10):
             img.clamp_(-1.5, 1.5)
@@ -89,7 +83,6 @@ def style_transfer(cnn, content_image, style_image, image_size, style_size, cont
         loss_lst = []
         
         for i in range(num_proj):
-            #theta, phi = thetas[i], phis[i]
             theta, phi = np.random.uniform(0, 2 * np.pi), np.random.uniform(0, 2 * np.pi)
             grid_size = (image_size[0], image_size[1], 3)
             coords = make_grid_np(theta, phi, 500, grid_size )
