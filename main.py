@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
-from projection_utils import make_grid_np
+from projection_utils import make_proj_grid
 from style_utils import extract_features, content_loss, style_loss, tv_loss, gram_matrix
 from image_utils import *
 
@@ -84,8 +84,7 @@ def style_transfer(cnn, content_image, style_image, image_size, style_size, cont
         
         for i in range(num_proj):
             theta, phi = np.random.uniform(0, 2 * np.pi), np.random.uniform(0, 2 * np.pi)
-            grid_size = (image_size[0], image_size[1], 3)
-            coords = make_grid_np(theta, phi, 500, grid_size )
+            coords = make_proj_grid(theta, phi, 500)
             coords_var = Variable(torch.from_numpy(coords.astype(np.float32))[None].type(dtype), requires_grad=False)
 
             proj_content_img_var = F.grid_sample(content_img_var, coords_var)
