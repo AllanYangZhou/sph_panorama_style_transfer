@@ -60,11 +60,7 @@ def gram_matrix(features, normalize=True):
     N, C, H, W = features.size()
     
     F = features.view(N, C, H * W)
-    G = Variable(torch.Tensor(N, C, C).type(features.type()))
-
-    for i, F_l in enumerate(F):
-        G_l = torch.mm(F_l, F_l.t())
-        G[i] = G_l
+    G = torch.bmm(F, F.transpose(1,2))
     
     if normalize:
         return G / (H*W*C)
